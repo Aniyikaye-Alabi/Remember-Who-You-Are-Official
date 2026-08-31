@@ -1,0 +1,101 @@
+@import 'tailwindcss';
+
+@theme {
+  /* The room: a cool limewash plaster, not paper. The whole working surface
+     sits in daylight so that darkness can be spent on one thing only — the
+     moment a line is actually spoken. */
+  --color-plaster: #e4e0e9;
+  --color-plaster-deep: #d5d0dc;
+  --color-hairline: #c4bdcd;
+
+  --color-ink: #241d2e;
+  --color-ink-mute: #6b6279;
+
+  /* Sound arriving. Reserved for armed state, the next firing, and focus. */
+  --color-signal: #2b33c9;
+  --color-signal-lift: #9aa0ff;
+
+  /* Sound already spent, and anything that needs a second look. */
+  --color-ochre: #8a5216;
+
+  --font-voice: 'Familjen Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-data: 'Martian Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--color-plaster);
+  color: var(--color-ink);
+  font-family: var(--font-voice);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* One focus treatment for the whole app, so keyboard users get the same
+   ultramarine everywhere the app uses to mean "live". */
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Mono is load-bearing here: times, counts and day letters have to align in a
+   column. Its default tracking is too wide at small sizes. */
+.data {
+  font-family: var(--font-data);
+  font-size: 0.6875rem;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-caps {
+  font-family: var(--font-data);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* The reminder overlay is the emotional beat of the product; it should arrive
+   rather than pop. */
+@keyframes rwya-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rwya-arrive {
+  animation: rwya-arrive 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* The one tick on the ribbon that is coming next. A slow breath, not a blink —
+   it sits on screen for an hour at a time. */
+@keyframes rwya-pending {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.rwya-pending {
+  animation: rwya-pending 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rwya-arrive,
+  .rwya-pending {
+    animation: none;
+  }
+}
