@@ -1,0 +1,46 @@
+#cloud-config
+
+package_update: true
+packages:
+  - nginx
+  - rsync            # the deploy step needs it on BOTH ends
+
+users:
+  - default
+  - name: deploy
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ${deploy_key}          # injected by templatefile()
+
+write_files:
+  - path: /etc/nginx/sites-available/rwya
+    content: |
+      server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        server_name _;
+        root /var/www/rwya;
+        index index.html;
+
+        location / {
+          try_files $uri $uri/ /index.html;
+        }
+
+        # hashed filenames -- safe to cache hard
+        location /assets/ {
+          expires 1y;
+          add_header Cache-Control "public, immutable";
+        }
+
+        # the entry point must never be cached
+        location = /index.html {
+          add_header Cache-Control "no-cache";
+        }
+      }
+
+runcmd:
+  - mkdir -p /var/www/rwya
+  - chown -R deploy:deploy /var/www/rwya
+  - rm -f /etc/nginx/sites-enabled/default
+  - ln -sf /etc/nginx/sites-available/rwya /etc/nginx/sites-enabled/rwya
+  - nginx -t && systemctl reload nginx
