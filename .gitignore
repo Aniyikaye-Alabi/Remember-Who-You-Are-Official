@@ -6,3 +6,11 @@ dist
 # Local working notes, not part of the shipped project.
 DESIGN-AND-ARCHITECTURE-DECISIONS.md
 DECISIONS.html
+DEPLOYMENT-GUIDE.html
+
+# Terraform
+infra/.terraform/
+infra/*.tfstate
+infra/*.tfstate.*
+infra/terraform.tfvars
+*.tfplan
