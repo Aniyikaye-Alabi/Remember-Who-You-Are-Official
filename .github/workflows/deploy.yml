@@ -38,7 +38,7 @@ jobs:
       - name: Trust the host
         run: ssh-keyscan -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
 
-      - name Ship dist/
+      - name: Ship dist/
         run: |
           rsync -avz --delete \
           dist/ \
