@@ -57,3 +57,4 @@ Three seams exist so phase 2 is an addition, not a rewrite:
 | `audio/voice/types.ts` — `VoiceProvider` | Web Speech API | Neural TTS with cached per-nugget audio |
 | `store/useAppStore.ts` — persist adapter | `localStorage` | Server sync, anonymous device ID, optional accounts |
 | `domain/schedule.ts` — `computeNextFire` | Runs in the tab | Same pure function run server-side to drive Web Push |
+
